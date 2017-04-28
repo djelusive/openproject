@@ -57,7 +57,9 @@ function wpRelationsAutocompleteDirective(
       scope.options = [];
       scope.relatedWps = [];
 
-      jQuery('.wp-relations--autocomplete').autocomplete({
+      let input = jQuery('.wp-relations--autocomplete')
+
+      input.autocomplete({
         delay: 250,
         autoFocus: false, // Accessibility!
         source: (request:{ term:string }, response:Function) => {
@@ -71,8 +73,9 @@ function wpRelationsAutocompleteDirective(
           scope.$evalAsync(() => {
             scope.selectedWpId = ui.item.workPackage.id;
           });
-        }
-      });
+        },
+        minLength: 0
+      }).focus(() => input.autocomplete('search', input.val()));
 
       function getIdentifier(workPackage:WorkPackageResourceInterface):string {
         if (workPackage) {
@@ -83,10 +86,6 @@ function wpRelationsAutocompleteDirective(
       };
 
       function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
-        if (!query) {
-          return $q.when([]);
-        }
-
         const deferred = $q.defer();
         loadingIndicator.indicator(scope.loadingPromiseName).promise = deferred.promise;
 
