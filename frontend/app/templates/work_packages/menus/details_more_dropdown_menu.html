@@ -5,6 +5,7 @@
       <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
       properly. Thus, don't remove the hrefs or the empty URLs! -->
       <a href="" focus="{{ !$index }}"
+         ng-class="{{ action }}"
          ng-click="triggerMoreMenuAction(action, properties.link)">
         <op-icon icon-classes="icon-context {{ properties.css.join(' ') }}"></op-icon>
         {{ I18n.t('js.button_' + action) }}
